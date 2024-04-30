@@ -1,0 +1,23 @@
+.container {
+  width: 80vw;
+  padding: 0 20px;
+  position: relative;
+  margin: 0 auto;
+  text-align: center;
+}
+.container-card {
+  position: relative;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  grid-template-columns: repeat(auto-fit, 200px);
+  gap: 20px;
+}
+@media (max-width: 750px) {
+  .container {
+    width: 100%;
+  }
+  .container-card{
+    grid-template-columns: 1fr;
+  }
+}

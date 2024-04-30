@@ -1,0 +1,36 @@
+<section class="container">
+    <nav>
+        <button class="btn-circle" (click)="previousPokemon()"> &lt; </button>
+        {{getPokemonDetails()?.name + " Nº" + getPokemonDetails()?.id}}
+        <button class="btn-circle" (click)="nextPokemon()"> &gt; </button>
+    </nav>
+    <main>
+        <div class="main-container">
+            <img [src]="getPokemonDetails()?.image" />
+            <article>
+                <span class="about-container">
+                    <p>{{getPokemonFlavorText()}}</p>
+                </span>
+                <section>
+                    <div class="type-container">
+                        @for (item of getPokemonDetails()?.types; track item;let last = $last;) {
+                        <span class="type-badge {{ item.type?.name ? item.type?.name : '' }}">
+                            {{item.type?.name}}</span>
+
+                        }
+                    </div>
+                    <div>
+                        <b>Heigth:</b>
+                        <p> {{getPokemonDetails()?.height}}m</p>
+                    </div>
+                    <div>
+                        <b>Weigth:</b>
+                        <p> {{getPokemonDetails()?.weight}}kg </p>
+                    </div>
+                </section>
+            </article>
+        </div>
+
+    </main>
+
+</section>

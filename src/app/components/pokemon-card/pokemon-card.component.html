@@ -1,0 +1,18 @@
+<section>
+    <button [ngClass]="'btn-circle ' +  (pokemonInfo?.selected == true ? 'active': '') " (click)="AddToTeam()"></button>
+    <a class="card" [routerLink]="['/pokemon', pokemonInfo?.id]" routerLinkActive="active">
+        <img [src]="pokemonInfo?.image" priority />
+        <footer>
+            Nº {{pokemonInfo?.id}}
+            <p>{{pokemonInfo?.name}}</p>
+            <div>
+                @for (item of pokemonInfo?.types; track item;let last = $last;) {
+                <span class="type-badge {{ item.type?.name ? item.type?.name : '' }}">
+                    {{item.type?.name}}</span>
+
+                }
+            </div>
+
+        </footer>
+    </a>
+</section>

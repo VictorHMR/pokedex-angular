@@ -1,0 +1,29 @@
+<nav>
+    <div class="logo">
+        <img src="assets/icons/Poké_Ball_icon.svg" alt="logo" />
+        <h1>Pokedex</h1>
+    </div>
+    <ul>
+        <li>
+            <a [routerLink]="['']" routerLinkActive="activeRoute" ariaCurrentWhenActive="page">Pokedex</a>
+        </li>
+        <li>
+            <a href="#">My Teams</a>
+        </li>
+    </ul>
+    <div #hamburger class="hamburger" (click)="toggleNav()">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+    </div>
+</nav>
+<div #menubar class="menubar">
+    <ul>
+        <li>
+            <a [routerLink]="['']" routerLinkActive="active" ariaCurrentWhenActive="page">Pokedex</a>
+        </li>
+        <li>
+            <a href="#">My Teams</a>
+        </li>
+    </ul>
+</div>
