@@ -1,5 +1,6 @@
 <section>
-    <button [ngClass]="'btn-circle ' +  (pokemonInfo?.selected == true ? 'active': '') " (click)="AddToTeam()"></button>
+    <button [ngClass]="'btn-circle ' +  (pokemonInfo?.favorited == true ? 'active': '') "
+        (click)="AddToFavorites()"></button>
     <a class="card" [routerLink]="['/pokemon', pokemonInfo?.id]" routerLinkActive="active">
         <img [src]="pokemonInfo?.image" priority />
         <footer>

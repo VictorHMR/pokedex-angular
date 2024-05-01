@@ -1,20 +1,16 @@
-<div class="container">
-    <label>
-        <input #search type="text" placeholder="Nome ou Numero " />
-        <button (click)="searchPokemons(search.value)">Pesquisar</button>
-        @if(activeSearch()){<button (click)="clearSearch()">Limpar</button>}
+<ng-content select="[Navigation]"></ng-content>
 
-    </label>
-    <section class="container-card">
-        @for (item of getPokemonList(); track item) {
-        @defer (on viewport) {
-        <app-pokemon-card [pokemonInfo]="item" (pokemonInfoChange)="setPokemonSelected($event)" />
-        }
-        @placeholder {
-        <div></div>
-        }
-        }
-    </section>
 
-    @if(!activeSearch()){<button class="btn btn-red" (click)="showMorePokemon()"> Carregar mais</button>}
-</div>
+
+<section List class="container-card">
+    @for (item of PokemonList; track item) {
+    @defer (on viewport) {
+    <app-pokemon-card [pokemonInfo]="item" (pokemonInfoChange)="setPokemonFavorited($event)" />
+    }
+    @placeholder {
+    <div></div>
+    }
+    }
+</section>
+
+<ng-content select="[Footer]"></ng-content>

@@ -44,8 +44,12 @@
 
   nav ul li a:hover {
     background-color: #f5f5f5;
+    color: var(--black);
   }
 
+  .activeRoute {
+    background-color: var(--white);
+  }
   .hamburger {
     display: none;
     cursor: pointer;

@@ -1,10 +1,10 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
 })

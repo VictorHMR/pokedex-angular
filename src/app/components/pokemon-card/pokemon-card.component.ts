@@ -17,16 +17,15 @@ export class PokemonCardComponent {
     new EventEmitter<IListPokemon | null>();
 
   #getLocalStorage() {
-    return JSON.parse(localStorage.getItem(ELocalStorage.POKEDEX_DATA) || '[]');
+    return JSON.parse(localStorage.getItem(ELocalStorage.FAVORITES) || '[]');
   }
   #updateLocalStorage(newData: Array<number>) {
-    localStorage.setItem(ELocalStorage.POKEDEX_DATA, JSON.stringify(newData));
+    localStorage.setItem(ELocalStorage.FAVORITES, JSON.stringify(newData));
   }
 
-  public AddToTeam() {
-    this.pokemonInfo!.selected = !(this.pokemonInfo?.selected ?? true);
-    this.pokemonInfoChange.emit(this.pokemonInfo);
-    if (this.pokemonInfo!.selected)
+  public AddToFavorites() {
+    this.pokemonInfo!.favorited = !(this.pokemonInfo?.favorited ?? true);
+    if (this.pokemonInfo!.favorited)
       this.#updateLocalStorage([
         ...this.#getLocalStorage(),
         this.pokemonInfo?.id,
@@ -37,5 +36,6 @@ export class PokemonCardComponent {
           (fil) => fil !== this.pokemonInfo?.id
         )
       );
+    this.pokemonInfoChange.emit(this.pokemonInfo);
   }
 }

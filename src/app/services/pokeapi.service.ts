@@ -35,8 +35,8 @@ export class PokeapiService {
         order: newPoke.order,
         types: newPoke.types,
         image: this.setPokemonImage(newPoke.id),
-        selected: Array.from(
-          JSON.parse(localStorage.getItem(ELocalStorage.POKEDEX_DATA) || '[]')
+        favorited: Array.from(
+          JSON.parse(localStorage.getItem(ELocalStorage.FAVORITES) || '[]')
         ).find((f) => f == newPoke.id)
           ? true
           : false,
@@ -79,6 +79,45 @@ export class PokeapiService {
       mergeMap((value) => value),
       tap((res) => (this.#setPokemonToList = res))
     );
+  }
+  #setPokemonListFavorite = signal<Array<IListPokemon> | null>(null);
+  get getPokemonListFavorite() {
+    return this.#setPokemonListFavorite.asReadonly();
+  }
+  public listPokemonFavorited$(
+    numbers: Array<number>
+  ): Observable<Array<IListPokemon>> {
+    this.#setPokemonListFavorite.set(null);
+    const requests = numbers.map((number) =>
+      this.#http
+        .get<IListPokemon>(`https://pokeapi.co/api/v2/pokemon/${number}`)
+        .pipe(
+          tap((res) => {
+            if (res.id <= 9999) {
+              const currentList = this.getPokemonListFavorite() || [];
+              const mappedRes: IListPokemon = {
+                id: res.id,
+                name: res.name.charAt(0).toUpperCase() + res.name.slice(1),
+                order: res.order,
+                types: res.types,
+                image: this.setPokemonImage(res.id),
+                favorited: Array.from(
+                  JSON.parse(
+                    localStorage.getItem(ELocalStorage.FAVORITES) || '[]'
+                  )
+                ).find((f) => f == res.id)
+                  ? true
+                  : false,
+              };
+              const updatedList = [...currentList, mappedRes].sort(
+                (a, b) => a.id - b.id
+              );
+              this.#setPokemonListFavorite.set(updatedList);
+            }
+          })
+        )
+    );
+    return forkJoin(requests);
   }
 
   #setPokemonDetails = signal<IPokemonDetails | null>(null);
@@ -129,12 +168,12 @@ export class PokeapiService {
   public clearPokemonList() {
     this.#setPokemonList.set(null);
   }
-  public pathPokemonSelected(newValue: IListPokemon | null) {
+  public pathPokemonFavorited(newValue: IListPokemon | null) {
     this.#setPokemonList.update((oldValues: Array<IListPokemon> | null) => {
       if (oldValues) {
         oldValues.filter((fil) => {
           if (fil.id == newValue?.id) {
-            fil.selected = newValue?.selected;
+            fil.favorited = newValue?.favorited;
           }
           return fil;
         });

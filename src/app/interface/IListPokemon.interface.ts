@@ -4,5 +4,5 @@ export interface IListPokemon {
   order: number;
   types: Array<{ slot: number; type?: { name: string; url: string } }>;
   image: string;
-  selected: boolean;
+  favorited: boolean;
 }

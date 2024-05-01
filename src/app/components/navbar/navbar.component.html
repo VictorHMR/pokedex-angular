@@ -5,13 +5,16 @@
     </div>
     <ul>
         <li>
-            <a [routerLink]="['']" routerLinkActive="activeRoute" ariaCurrentWhenActive="page">Pokedex</a>
+            <a [routerLink]="['/']">Pokedex</a>
         </li>
         <li>
             <a href="#">My Teams</a>
         </li>
+        <li>
+            <a [routerLink]="['favorites']">Favorites</a>
+        </li>
     </ul>
-    <div #hamburger class="hamburger" (click)="toggleNav()">
+    <div #hamburger class=" hamburger" (click)="toggleNav()">
         <span class="line"></span>
         <span class="line"></span>
         <span class="line"></span>
@@ -20,10 +23,13 @@
 <div #menubar class="menubar">
     <ul>
         <li>
-            <a [routerLink]="['']" routerLinkActive="active" ariaCurrentWhenActive="page">Pokedex</a>
+            <a [routerLink]="['']">Pokedex</a>
         </li>
         <li>
             <a href="#">My Teams</a>
+        </li>
+        <li>
+            <a [routerLink]="['favorites']">Favorites</a>
         </li>
     </ul>
 </div>

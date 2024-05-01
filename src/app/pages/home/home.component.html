@@ -1,1 +1,26 @@
-<app-pokemon-list />
+<div class="container">
+    <h1>Pokedex</h1>
+    <app-pokemon-list [PokemonList]="getPokemonList()">
+        <section Navigation>
+            <label class="input-text">
+                <input #search type="text" placeholder="Nome ou Numero " (keyup.enter)="searchPokemons(search.value)" />
+                <div>
+                    @if(activeSearch()){
+                    <button class="btn-circle btn-transparent" (click)="clearSearch()">
+                        <img src="assets/icons/close-icon.svg">
+                    </button>
+                    }
+
+                    <button class="btn-circle semi-circle" (click)="searchPokemons(search.value)">
+                        <img src="assets/icons/search-icon.svg">
+                    </button>
+                </div>
+
+            </label>
+
+        </section>
+
+        @if(!activeSearch()){<button Footer class="btn btn-red btn-load" (click)="showMorePokemon()"> Carregar
+            mais</button>}
+    </app-pokemon-list>
+</div>

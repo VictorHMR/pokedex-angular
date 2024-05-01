@@ -9,10 +9,13 @@
       position: absolute;
       top: 10px;
       right: 10px;
-      background: url("assets/icons/add-icon.svg") no-repeat center center;
+      background: url("assets/icons/not-favorite-icon.svg") no-repeat center
+        center;
       background-size: contain;
+      border-radius: 0;
       &.active {
-        background: url("assets/icons/remove-icon.svg") no-repeat center center !important;
+        background: url("assets/icons/favorite-icon.svg") no-repeat center
+          center !important;
       }
     }
 
@@ -65,6 +68,9 @@
       }
       footer {
         height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
       }
     }
   }
