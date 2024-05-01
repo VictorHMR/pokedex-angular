@@ -3,6 +3,7 @@
   padding: 0 20px;
   position: relative;
   margin: 0 auto;
+  margin-top: 100px;
   text-align: center;
 }
 .container-card {
@@ -17,7 +18,7 @@
   .container {
     width: 100%;
   }
-  .container-card{
+  .container-card {
     grid-template-columns: 1fr;
   }
 }

@@ -1,7 +1,7 @@
 :host {
   section {
     position: relative;
-    transition: 0.1s ease-in;
+    transition: transform 0.1s ease-in;
 
     button {
       width: 30px;
@@ -16,11 +16,12 @@
       &.active {
         background: url("assets/icons/favorite-icon.svg") no-repeat center
           center !important;
+        background-size: contain;
       }
     }
 
     &:hover {
-      scale: 1.1;
+      transform: translateY(-5px);
     }
   }
   .card {
