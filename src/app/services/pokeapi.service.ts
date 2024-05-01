@@ -61,25 +61,46 @@ export class PokeapiService {
         tap((res) => (this.#setPokemonToList = res))
       );
   }
-  public listPokemonFilter$(search: string | number): Observable<IListPokemon> {
+  public listPokemonFilter$(
+    search: string | number | null,
+    type?: string | null
+  ): Observable<IListPokemon> {
     this.#setPokemonList.set(null);
     this.#NextPage.set(null);
 
-    return this.#http.get<any>(`${this.#url()}pokemon?limit=9999`).pipe(
-      map((value: any) => {
-        value.results = value.results.filter((fil: any) => {
-          if (typeof search == 'string')
-            return fil.name.includes(search.toLowerCase());
-          else return fil.url.includes(search);
-        });
-        return from(value.results).pipe(
-          mergeMap((v: any) => this.#http.get<IListPokemon>(v.url))
-        );
-      }),
-      mergeMap((value) => value),
-      tap((res) => (this.#setPokemonToList = res))
-    );
+    return this.#http
+      .get<any>(
+        `${this.#url()}${type == null ? 'pokemon?limit=9999' : 'type/' + type}`
+      )
+      .pipe(
+        map((value: any) => {
+          if (type == null) {
+            value.results = value.results.filter((fil: any) => {
+              if (typeof search == 'string')
+                return fil.name.includes(search.toLowerCase());
+              else return fil.url.includes(search);
+            });
+            return from(value.results).pipe(
+              mergeMap((v: any) => this.#http.get<IListPokemon>(v.url))
+            );
+          } else {
+            value.pokemon = value.pokemon.filter((fil: any) => {
+              if (typeof search == 'string')
+                return fil.pokemon.name.includes(search.toLowerCase());
+              else if (typeof search == 'number')
+                return fil.pokemon.url.includes(search);
+              else return fil;
+            });
+            return from(value.pokemon).pipe(
+              mergeMap((v: any) => this.#http.get<IListPokemon>(v.pokemon.url))
+            );
+          }
+        }),
+        mergeMap((value) => value),
+        tap((res) => (this.#setPokemonToList = res))
+      );
   }
+
   #setPokemonListFavorite = signal<Array<IListPokemon> | null>(null);
   get getPokemonListFavorite() {
     return this.#setPokemonListFavorite.asReadonly();

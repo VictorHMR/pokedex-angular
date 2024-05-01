@@ -1,24 +1,31 @@
 <div class="container">
     <h1>Pokedex</h1>
     <app-pokemon-list [PokemonList]="getPokemonList()">
-        <section Navigation>
+        <form Navigation #form="ngForm" (ngSubmit)="searchPokemons(form)">
             <label class="input-text">
-                <input #search type="text" placeholder="Nome ou Numero " (keyup.enter)="searchPokemons(search.value)" />
+                <input type="text" placeholder="Nome ou Numero" name="SearchInput" #search="ngModel"
+                    [ngModel]="search.value" autocomplete="off" />
                 <div>
                     @if(activeSearch()){
-                    <button class="btn-circle btn-transparent" (click)="clearSearch()">
+                    <button class="btn-circle btn-transparent" (click)="clearSearch($event); form.reset()">
                         <img src="assets/icons/close-icon.svg">
                     </button>
                     }
 
-                    <button class="btn-circle semi-circle" (click)="searchPokemons(search.value)">
+                    <button type="submit" class="btn-circle semi-circle">
                         <img src="assets/icons/search-icon.svg">
                     </button>
                 </div>
 
             </label>
+            <select name="PokemonTypes" #types="ngModel" ngModel>
+                <option class="FirstOption" value="">Selecione um tipo</option>
+                @for (item of pokemonTypes; track item) {
+                <option class="{{item}}" [ngValue]="item">{{item}}</option>
+                }
+            </select>
+        </form>
 
-        </section>
 
         @if(!activeSearch()){<button Footer class="btn btn-red btn-load" (click)="showMorePokemon()"> Carregar
             mais</button>}

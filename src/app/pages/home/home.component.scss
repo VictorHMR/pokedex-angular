@@ -1,5 +1,5 @@
 :host {
-  section:nth-child(1) {
+  form {
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -9,6 +9,9 @@
       div {
         display: flex;
       }
+    }
+    .FirstOption {
+      color: var(--grey);
     }
   }
   .btn-circle {
@@ -31,7 +34,7 @@
   }
 
   @media (max-width: 750px) {
-    section:nth-child(1) {
+    form {
       display: flex;
       justify-content: center;
       align-items: flex-start;

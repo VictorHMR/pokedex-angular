@@ -96,7 +96,7 @@
     width: 60%;
     height: 100vh;
     padding: 20% 0;
-    background: rgba(255, 255, 255);
+    background: var(--black-005);
     transition: all 0.5s ease-in;
     z-index: 2;
   }

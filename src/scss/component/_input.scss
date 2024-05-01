@@ -20,3 +20,27 @@
     margin-left: 10px;
   }
 }
+select {
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+  background: var(--black-005);
+  margin-bottom: 20px;
+  color: var(--grey);
+  option {
+    color: var(--black);
+  }
+  .flying {
+    background-color: #afd3e7;
+  }
+  .ground {
+    background-color: #413810;
+    color: var(--grey);
+  }
+  .dragon {
+    background-color: #581212;
+    color: var(--grey);
+  }
+}
