@@ -166,6 +166,7 @@ export class PokeapiService {
     return `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${s}.png`;
   }
   public clearPokemonList() {
+    this.#NextPage.set(null);
     this.#setPokemonList.set(null);
   }
   public pathPokemonFavorited(newValue: IListPokemon | null) {

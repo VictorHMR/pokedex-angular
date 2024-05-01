@@ -24,6 +24,7 @@ export class HomeComponent implements OnInit {
   public getPokemonList = this.#pokeApiService.getPokemonList;
 
   ngOnInit(): void {
+    this.#pokeApiService.clearPokemonList();
     this.#pokeApiService.listPokemon$().subscribe();
   }
 
