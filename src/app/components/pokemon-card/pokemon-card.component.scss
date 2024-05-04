@@ -2,24 +2,11 @@
   section {
     position: relative;
     transition: transform 0.1s ease-in;
-
-    button {
-      width: 30px;
-      height: 30px;
+    .btn-favorite {
       position: absolute;
       top: 10px;
       right: 10px;
-      background: url("assets/icons/not-favorite-icon.svg") no-repeat center
-        center;
-      background-size: contain;
-      border-radius: 0;
-      &.active {
-        background: url("assets/icons/favorite-icon.svg") no-repeat center
-          center !important;
-        background-size: contain;
-      }
     }
-
     &:hover {
       transform: translateY(-5px);
     }

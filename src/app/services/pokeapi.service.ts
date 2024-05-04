@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
 import { ELocalStorage } from 'app/enum/ELocalStorage.enum';
+import { IEvolutionChain } from 'app/interface/IEvolution_chain.interface';
 import { IListPokemon } from 'app/interface/IListPokemon.interface';
 import { IPokemonDetails } from 'app/interface/IPokemonDetails.interface';
 import { environment } from 'environments/environment';
@@ -152,9 +153,15 @@ export class PokeapiService {
         const mappedRes: IPokemonDetails = {
           id: res.id,
           name: res.name.charAt(0).toUpperCase() + res.name.slice(1),
+          favorited: Array.from(
+            JSON.parse(localStorage.getItem(ELocalStorage.FAVORITES) || '[]')
+          ).find((f) => f == id)
+            ? true
+            : false,
           order: res.order,
           height: res.height / 10,
           weight: res.weight / 10,
+          abilities: res.abilities,
           types: res.types,
           image: this.setPokemonImage(res.id),
           sprites: res.sprites,
@@ -162,20 +169,41 @@ export class PokeapiService {
           species: res.species,
         };
         this.#http
-          .get<{
-            flavor_text_entries: [
-              { flavor_text: string; language: { name: string } }
-            ];
-            evolution_chan: { url: string };
-          }>(res.species?.url)
+          .get<any>(res.species?.url)
           .pipe(
             tap((res) => {
-              mappedRes.species.specieDetail = res;
+              mappedRes.species.specieDetail = {
+                genera: res.genera
+                  .filter((f: any) => f.language.name == 'en')
+                  .pop().genus,
+                flavor_text_entrie: res.flavor_text_entries
+                  .filter((f: any) => f.language.name == 'en')
+                  .pop().flavor_text,
+              };
+              this.#getEvolutionchain(res.evolution_chain.url).subscribe({
+                next: (next) => {
+                  if (mappedRes.species.specieDetail) {
+                    mappedRes.species.specieDetail.evolution_chain = {
+                      url: res.evolution_chain.url,
+                      details: next,
+                    };
+                  }
+                },
+              });
             })
           )
           .subscribe();
         this.#setPokemonDetails.set(mappedRes);
       })
+    );
+  }
+  #getEvolutionchain(url: string): Observable<IEvolutionChain> {
+    return this.#http.get<any>(url).pipe(
+      map((res) => ({
+        evolves_to: res.chain.evolves_to,
+        is_baby: res.chain.is_baby,
+        species: res.chain.species,
+      }))
     );
   }
 
@@ -190,6 +218,13 @@ export class PokeapiService {
     this.#NextPage.set(null);
     this.#setPokemonList.set(null);
   }
+
+  #getLocalStorage() {
+    return JSON.parse(localStorage.getItem(ELocalStorage.FAVORITES) || '[]');
+  }
+  #updateLocalStorage(newData: Array<number>) {
+    localStorage.setItem(ELocalStorage.FAVORITES, JSON.stringify(newData));
+  }
   public pathPokemonFavorited(newValue: IListPokemon | null) {
     this.#setPokemonList.update((oldValues: Array<IListPokemon> | null) => {
       if (oldValues) {
@@ -202,5 +237,19 @@ export class PokeapiService {
       }
       return oldValues;
     });
+    this.#setPokemonListFavorite.update(
+      (oldValues: Array<IListPokemon> | null) => {
+        if (oldValues)
+          return oldValues.filter((fil) => fil.id !== newValue?.id);
+        else return oldValues;
+      }
+    );
+    newValue!.favorited = !(newValue?.favorited ?? true);
+    if (newValue!.favorited)
+      this.#updateLocalStorage([...this.#getLocalStorage(), newValue?.id]);
+    else
+      this.#updateLocalStorage(
+        [...this.#getLocalStorage()].filter((fil) => fil !== newValue?.id)
+      );
   }
 }

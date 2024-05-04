@@ -1,36 +1,71 @@
 <section class="container">
-    <nav>
-        <button class="btn-circle" (click)="previousPokemon()"> &lt; </button>
-        {{getPokemonDetails()?.name + " Nº" + getPokemonDetails()?.id}}
-        <button class="btn-circle" (click)="nextPokemon()"> &gt; </button>
-    </nav>
-    <main>
-        <div class="main-container">
-            <img [src]="getPokemonDetails()?.image" />
-            <article>
-                <span class="about-container">
-                    <p>{{getPokemonFlavorText()}}</p>
-                </span>
-                <section>
-                    <div class="type-container">
-                        @for (item of getPokemonDetails()?.types; track item;let last = $last;) {
+
+
+    <main class="general-container">
+        <section class="main-box">
+            <section class="name-box">
+                <div>
+                    <h1>{{getPokemonDetails()?.name}}</h1>
+                    <p>{{getPokemonDetails()?.species?.specieDetail?.genera}}</p>
+                    <div>
+                        @for (item of getPokemonDetails()?.types; track item) {
                         <span class="type-badge {{ item.type?.name ? item.type?.name : '' }}">
                             {{item.type?.name}}</span>
-
                         }
                     </div>
+                </div>
+
+                <button class="btn-favorite {{getPokemonDetails()?.favorited == true ? 'active': ''}}"
+                    (click)="AddToFavorites()"></button>
+            </section>
+            <section class="image-box {{getPokemonType(1)}}">
+                <img src="{{getPokemonDetails()?.image}}" />
+            </section>
+            <section class="evolution-box">
+                <h2>Evolutions</h2>
+            </section>
+
+        </section>
+
+        <section class="details-box">
+            <section class="specie-box">
+                <h2>Specie</h2>
+                <p>{{getPokemonDetails()?.species?.specieDetail?.flavor_text_entrie}}</p>
+
+                <span>
+                    <p><b>Heigth:</b> {{getPokemonDetails()?.height}}m</p>
+                    <p><b>Weigth:</b> {{getPokemonDetails()?.weight}}kg</p>
+                </span>
+            </section>
+
+            <section class="habilities-box">
+                <h2>Habilities</h2>
+                @for (item of getPokemonDetails()?.abilities; track item) {
+                <span class="{{getPokemonType(1)}}">
+                    @if (item.is_hidden) {
+                    <div class="{{getPokemonType(2)}}">Hidden</div>
+                    }
+                    {{item.ability.name}}
+                    <img src="assets/icons/info-icon.svg" />
+                </span>
+                }
+            </section>
+
+            <section class="stats-box">
+                <h2>Stats</h2>
+                <article class="Stat">
+                    @for (item of getPokemonDetails()?.stats; track item) {
                     <div>
-                        <b>Heigth:</b>
-                        <p> {{getPokemonDetails()?.height}}m</p>
+                        <span class="stat-name">{{item.stat.name}}</span>
+                        <span>{{item.base_stat}}</span>
                     </div>
-                    <div>
-                        <b>Weigth:</b>
-                        <p> {{getPokemonDetails()?.weight}}kg </p>
-                    </div>
-                </section>
-            </article>
-        </div>
+                    }
+                </article>
+
+            </section>
+
+        </section>
+
 
     </main>
-
 </section>

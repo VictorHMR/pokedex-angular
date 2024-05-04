@@ -5,7 +5,7 @@
 <section List class="container-card">
     @for (item of PokemonList; track item) {
     @defer (on viewport) {
-    <app-pokemon-card [pokemonInfo]="item" (pokemonInfoChange)="setPokemonFavorited($event)" />
+    <app-pokemon-card [pokemonInfo]="item" />
     }
     @placeholder {
     <div></div>

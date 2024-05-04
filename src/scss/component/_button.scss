@@ -49,3 +49,33 @@
     background-color: var(--red-010);
   }
 }
+
+.btn-favorite {
+  display: flex;
+  justify-content: space-around;
+  gap: 5px;
+  align-items: center;
+  padding: 10px;
+  height: 40px;
+  border: none;
+  text-decoration: none;
+  font-size: 15px;
+  cursor: pointer;
+
+  &:hover {
+    scale: 1.03;
+  }
+
+  width: 30px;
+  height: 30px;
+  background: url("../../assets/icons/not-favorite-icon.svg") no-repeat center
+    center;
+  background-size: contain;
+  border-radius: 0;
+
+  &.active {
+    background: url("../../assets/icons/favorite-icon.svg") no-repeat center
+      center !important;
+    background-size: contain;
+  }
+}

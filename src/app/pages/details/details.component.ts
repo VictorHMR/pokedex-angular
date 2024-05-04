@@ -1,16 +1,22 @@
-import { JsonPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router,
+  RouterLink,
+  RouterLinkActive,
+} from '@angular/router';
+import { IEvolutionChain } from 'app/interface/IEvolution_chain.interface';
 import { PokeapiService } from 'app/services/pokeapi.service';
 
 @Component({
   selector: 'app-details',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, CommonModule],
   templateUrl: './details.component.html',
-  styleUrl: './details.component.scss'
+  styleUrl: './details.component.scss',
 })
-export class DetailsComponent implements OnInit{
+export class DetailsComponent implements OnInit {
   #route = inject(ActivatedRoute);
   #router = inject(Router);
   #pokeApiService = inject(PokeapiService);
@@ -18,24 +24,23 @@ export class DetailsComponent implements OnInit{
   public getPokemonDetails = this.#pokeApiService.getPokemonDetails;
 
   ngOnInit(): void {
-    this.#pokeApiService.getPokemonDetails$(this.#route.snapshot.params['id']).subscribe(); 
+    this.#pokeApiService
+      .getPokemonDetails$(this.#route.snapshot.params['id'])
+      .subscribe();
   }
-
-  getPokemonFlavorText(): string {
-    const flavorTextEntries = this.getPokemonDetails()?.species?.specieDetail?.flavor_text_entries;
-    return flavorTextEntries?.filter(f=> f.language.name == 'en').pop()?.flavor_text ?? ''; 
-}
-
-  public nextPokemon(){
-    let newId = parseInt(this.#route.snapshot.params['id']) + 1;
-    this.#router.navigate(['/pokemon', newId]); 
-    this.#pokeApiService.getPokemonDetails$(newId).subscribe(); 
-
+  public getPokemonType(slot: number) {
+    if (slot == 2 && (this.getPokemonDetails()?.types?.length ?? 1) < 2)
+      slot = 1;
+    return this.getPokemonDetails()
+      ?.types.filter((res) => res.slot == slot)
+      .shift()?.type?.name;
   }
-
-  public previousPokemon(){
-    let newId = parseInt(this.#route.snapshot.params['id']) - 1;
-    this.#router.navigate(['/pokemon', parseInt(this.#route.snapshot.params['id']) - 1]); 
-    this.#pokeApiService.getPokemonDetails$(newId).subscribe(); 
+  public GetEvolutionChain() {
+    console.log(
+      this.getPokemonDetails()?.species?.specieDetail?.evolution_chain?.details
+    );
+  }
+  public AddToFavorites() {
+    this.#pokeApiService.pathPokemonFavorited(this.getPokemonDetails());
   }
 }

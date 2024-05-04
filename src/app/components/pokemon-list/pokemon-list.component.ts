@@ -23,14 +23,6 @@ import { IListPokemon } from 'app/interface/IListPokemon.interface';
   styleUrl: './pokemon-list.component.scss',
 })
 export class PokemonListComponent {
-  #pokeApiService = inject(PokeapiService);
-
   @Input({ required: true }) public PokemonList: Array<IListPokemon> | null =
     null;
-  @Output() pokemonInfoChange: EventEmitter<null> = new EventEmitter<null>();
-
-  public setPokemonFavorited(newPokemon: IListPokemon | null) {
-    this.#pokeApiService.pathPokemonFavorited(newPokemon);
-    this.pokemonInfoChange.emit();
-  }
 }
