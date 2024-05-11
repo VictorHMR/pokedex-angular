@@ -7,8 +7,8 @@ import { NavbarComponent } from '@components/navbar/navbar.component';
   standalone: true,
   imports: [NavbarComponent, RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  title = 'pokedex-avancada-angular';
+  title = 'pokedex-angular';
 }
